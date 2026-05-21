@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
+import API_BASE_URL from "../api.js";
 
 export default function AdminPayments() {
   const [payments, setPayments] = useState([]);
 
   useEffect(() => {
     const fetchPayments = async () => {
-      const res = await fetch("/api/payment/all");
+      const res = await fetch(`${API_BASE_URL}/api/payment/all`);
       const data = await res.json();
       if (data.success) setPayments(data.data);
     };

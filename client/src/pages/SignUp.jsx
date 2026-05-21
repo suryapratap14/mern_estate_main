@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import OAuth from '../components/OAuth.jsx';
+import API_BASE_URL from '../api.js';
 
 function SignUp() {
   const [formData, setFormData] = useState({
@@ -20,7 +21,7 @@ function SignUp() {
     setLoading(true);
     setError(null);
     try {
-      const res = await fetch('/api/auth/signup', {
+      const res = await fetch(`${API_BASE_URL}/api/auth/signup`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData),

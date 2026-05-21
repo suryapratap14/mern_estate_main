@@ -12,6 +12,7 @@ import {
   signOutUserStart,
 } from "../redux/user/userSlice";
 import { Link, useNavigate } from "react-router-dom";
+import API_BASE_URL from "../api.js";
 
 export default function Profile() {
   const fileRef = useRef(null);
@@ -79,7 +80,7 @@ export default function Profile() {
 
     try {
       dispatch(updateUserStart());
-      const res = await fetch(`/api/user/update/${currentUser._id}`, {
+      const res = await fetch(`${API_BASE_URL}/api/user/update/${currentUser._id}`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
@@ -109,7 +110,7 @@ export default function Profile() {
     try {
       if (!window.confirm("Are you sure you want to delete your account? This cannot be undone.")) return;
       dispatch(deleteUserStart());
-      const res = await fetch(`/api/user/delete/${currentUser._id}`, { method: "DELETE" });
+      const res = await fetch(`${API_BASE_URL}/api/user/delete/${currentUser._id}`, { method: "DELETE" });
       const data = await res.json();
       if (data.success === false) {
         dispatch(deleteUserFailure(data.message));
@@ -126,7 +127,7 @@ export default function Profile() {
   const handleSignOut = async () => {
     try {
       dispatch(signOutUserStart());
-      await fetch(`/api/auth/signout`);
+      await fetch(`${API_BASE_URL}/api/auth/signout`);
       localStorage.removeItem("currentUser");
       dispatch(deleteUserSuccess({}));
       navigate("/sign-in");
@@ -147,7 +148,7 @@ export default function Profile() {
     if (!currentUser || !currentUser._id) return;
     try {
       setShowListingsError(false);
-      const res = await fetch(`/api/user/listings/${currentUser._id}`);
+      const res = await fetch(`${API_BASE_URL}/api/user/listings/${currentUser._id}`);
       const data = await res.json();
       if (data.success === false) {
         setShowListingsError(true);
@@ -169,7 +170,7 @@ export default function Profile() {
   const handleShowPayments = async () => {
     if (!currentUser || !currentUser._id) return;
     try {
-      const res = await fetch(`/api/payment/user/${currentUser._id}`);
+      const res = await fetch(`${API_BASE_URL}/api/payment/user/${currentUser._id}`);
       const data = await res.json();
       const payments = data?.data || data?.payments || (Array.isArray(data) ? data : []);
       setUserPayments(payments);
@@ -184,7 +185,7 @@ export default function Profile() {
   const handleListingDelete = async (listingId) => {
     try {
       if (!window.confirm("Delete this listing?")) return;
-      const res = await fetch(`/api/listing/delete/${listingId}`, { method: "DELETE" });
+      const res = await fetch(`${API_BASE_URL}/api/listing/delete/${listingId}`, { method: "DELETE" });
       const data = await res.json();
       if (data.success === false) {
         alert(data.message || "Could not delete listing");

@@ -5,6 +5,7 @@ import { Navigation } from "swiper/modules";
 import SwiperCore from "swiper";
 import "swiper/css/bundle";
 import ListingItem from "../components/ListingItem";
+import API_BASE_URL from "../api.js";
 
 function Home() {
   const [offerListings, setOfferListings] = useState([]);
@@ -25,7 +26,7 @@ function Home() {
 
     const fetchOfferListings = async () => {
       try {
-        const res = await fetch("/api/listing/get?offer=true&limit=4");
+        const res = await fetch(`${API_BASE_URL}/api/listing/get?offer=true&limit=4`);
         const json = await res.json();
         if (!mounted) return;
         setOfferListings(normalize(json));
@@ -40,8 +41,8 @@ function Home() {
     const fetchRentAndSale = async () => {
       try {
         const [rentRes, saleRes] = await Promise.all([
-          fetch("/api/listing/get?type=rent&limit=4"),
-          fetch("/api/listing/get?type=sale&limit=4"),
+          fetch(`${API_BASE_URL}/api/listing/get?type=rent&limit=4`),
+          fetch(`${API_BASE_URL}/api/listing/get?type=sale&limit=4`),
         ]);
         const rentJson = await rentRes.json();
         const saleJson = await saleRes.json();

@@ -13,6 +13,8 @@ import {
   deleteUserFailure,
 } from "../redux/user/userSlice";
 
+import API_BASE_URL from "../api.js";
+
 export default function AdminDashboard() {
   const [users, setUsers] = useState([]);
   const [listings, setListings] = useState([]);
@@ -38,9 +40,9 @@ export default function AdminDashboard() {
     setError(null);
     try {
       const [uRes, lRes, pRes] = await Promise.all([
-        fetch("/api/user/admin/all"),
-        fetch("/api/listing/admin/all"),
-        fetch("/api/payment/all"),
+        fetch(`${API_BASE_URL}/api/user/admin/all`),
+        fetch(`${API_BASE_URL}/api/listing/admin/all`),
+        fetch(`${API_BASE_URL}/api/payment/all`),
       ]);
       const [uJson, lJson, pJson] = await Promise.all([
         uRes.json(),
@@ -62,7 +64,7 @@ export default function AdminDashboard() {
     try {
       dispatch(signOutUserStart());
 
-      await fetch(`/api/auth/signout`, {
+      await fetch(`${API_BASE_URL}/api/auth/signout`, {
         method: "POST",
         credentials: "include",
       });
@@ -81,7 +83,7 @@ export default function AdminDashboard() {
   const deleteUser = async (id) => {
     if (!confirm("Delete user?")) return;
     try {
-      const res = await fetch(`/api/user/admin/delete/${id}`, {
+      const res = await fetch(`${API_BASE_URL}/api/user/admin/delete/${id}`, {
         method: "DELETE",
       });
       const json = await res.json();
@@ -96,7 +98,7 @@ export default function AdminDashboard() {
   const deleteListing = async (id) => {
     if (!confirm("Delete listing?")) return;
     try {
-      const res = await fetch(`/api/listing/delete/${id}`, {
+      const res = await fetch(`${API_BASE_URL}/api/listing/delete/${id}`, {
         method: "DELETE",
       });
       const json = await res.json();

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import ListingItem from "../components/ListingItem";
+import API_BASE_URL from "../api.js";
 
 function Search() {
   const navigate = useNavigate();
@@ -47,7 +48,7 @@ function Search() {
       setLoading(true);
       setShowMore(false);
       try {
-        const res = await fetch(`/api/listing/get?${urlParams.toString()}`);
+        const res = await fetch(`${API_BASE_URL}/api/listing/get?${urlParams.toString()}`);
         const json = await res.json();
         const dataArr = normalizeResponse(json);
         setListings(dataArr);
@@ -111,7 +112,7 @@ function Search() {
     urlParams.set("limit", String(LIMIT));
 
     try {
-      const res = await fetch(`/api/listing/get?${urlParams.toString()}`);
+      const res = await fetch(`${API_BASE_URL}/api/listing/get?${urlParams.toString()}`);
       const json = await res.json();
       const newData = normalizeResponse(json);
       setListings((prev) => [...prev, ...newData]);

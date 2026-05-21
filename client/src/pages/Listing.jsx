@@ -7,6 +7,7 @@ import "swiper/css/bundle";
 import { useSelector } from "react-redux";
 import { FaBath, FaBed, FaChair, FaMapMarkerAlt, FaParking, FaShare } from "react-icons/fa";
 import Contact from "../components/Contact";
+import API_BASE_URL from "../api.js";
 
 SwiperCore.use([Navigation]);
 
@@ -31,7 +32,7 @@ export default function Listing() {
       }
       try {
         setLoading(true);
-        const res = await fetch(`/api/listing/get/${listingId}`);
+        const res = await fetch(`${API_BASE_URL}/api/listing/get/${listingId}`);
         const data = await res.json();
         if (data.success === false) {
           setError(true);
@@ -78,7 +79,7 @@ export default function Listing() {
         alert("Payment successful! Payment ID: " + response.razorpay_payment_id);
 
         try {
-          await fetch("/api/payment/save", {
+          await fetch(`${API_BASE_URL}/api/payment/save`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
