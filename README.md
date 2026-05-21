@@ -110,40 +110,40 @@ Future Improvements:->
 
 ## Home Page
 
-![Home Page](client/public/screenshots/home.png)
+![Home Page](./screenshots/home.png)
 
 ---
 
 ## Login Page
 
-![Login Page](client/public/screenshots/login.png)
+![Login Page](./screenshots/login.png)
 
 ---
 
 ## Dashboard
 
-![Dashboard](client/public/screenshots/dashboard.png)
+![Dashboard](./screenshots/dashboard.png)
 
 ---
 
 ## Property Page
 
-![Property Page](client/public/screenshots/property_detail_page.png)
+![Property Page](./screenshots/property_detail_page.png)
 
 ---
 
 ## Payment Page
 
-![Payment Page](client/public/screenshots/payment_page.png).
+![Payment Page](./screenshots/payment_page.png).
 
 ## Contact Section
-![Contact to Landloard section](client/public/screenshots/contact_to_landloard.png).
+![Contact to Landloard section](./screenshots/contact_to_landloard.png).
 
 ## MY Listings
-![My Listings](client/public/screenshots/my_listing_page.png).
+![My Listings](./screenshots/my_listing_page.png).
 
 ## Payment History
-![Payment History](client/public/screenshots/Payment_history.png).
+![Payment History](./screenshots/Payment_history.png).
 
 
 Author
