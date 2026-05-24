@@ -44,7 +44,7 @@ export default function UpdateListing() {
     const fetchListing = async () => {
       setFetching(true);
       try {
-        const res = await fetch(`${API_BASE_URL}/api/listing/get/${listingId}`);
+        const res = await fetch(`${API_BASE_URL}/api/listing/get/${listingId}`, { credentials: "include", });
         const data = await res.json();
         if (data.success === false) {
           setError(data.message || "Failed to load listing");
@@ -203,6 +203,7 @@ export default function UpdateListing() {
 
       const res = await fetch(`${API_BASE_URL}/api/listing/update/${listingId}`, {
         method: "POST",
+        credentials: "include",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
       });

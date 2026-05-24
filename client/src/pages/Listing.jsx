@@ -5,7 +5,14 @@ import SwiperCore from "swiper";
 import { Navigation } from "swiper/modules";
 import "swiper/css/bundle";
 import { useSelector } from "react-redux";
-import { FaBath, FaBed, FaChair, FaMapMarkerAlt, FaParking, FaShare } from "react-icons/fa";
+import {
+  FaBath,
+  FaBed,
+  FaChair,
+  FaMapMarkerAlt,
+  FaParking,
+  FaShare,
+} from "react-icons/fa";
 import Contact from "../components/Contact";
 import API_BASE_URL from "../api.js";
 
@@ -32,7 +39,12 @@ export default function Listing() {
       }
       try {
         setLoading(true);
-        const res = await fetch(`${API_BASE_URL}/api/listing/get/${listingId}`);
+        const res = await fetch(
+          `${API_BASE_URL}/api/listing/get/${listingId}`,
+          {
+            credentials: "include",
+          }
+        );
         const data = await res.json();
         if (data.success === false) {
           setError(true);
@@ -55,7 +67,9 @@ export default function Listing() {
 
   const handlePayment = async () => {
     if (!currentUser) {
-      const confirmRedirect = window.confirm("You need to sign in to continue. Do you want to sign-in?");
+      const confirmRedirect = window.confirm(
+        "You need to sign in to continue. Do you want to sign-in?"
+      );
       if (confirmRedirect) navigate("/sign-in");
       return;
     }
@@ -76,11 +90,14 @@ export default function Listing() {
       name: listing.name,
       description: listing.description,
       handler: async function (response) {
-        alert("Payment successful! Payment ID: " + response.razorpay_payment_id);
+        alert(
+          "Payment successful! Payment ID: " + response.razorpay_payment_id
+        );
 
         try {
           await fetch(`${API_BASE_URL}/api/payment/save`, {
             method: "POST",
+            credentials: "include",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
               paymentId: response.razorpay_payment_id,
@@ -115,13 +132,20 @@ export default function Listing() {
 
   return (
     <main className="bg-gray-50 min-h-screen mt-5">
-      {loading && <p className="text-center my-7 text-2xl text-gray-700">Loading...</p>}
-      {error && <p className="text-center my-7 text-2xl text-red-600">Something went wrong!</p>}
+      {loading && (
+        <p className="text-center my-7 text-2xl text-gray-700">Loading...</p>
+      )}
+      {error && (
+        <p className="text-center my-7 text-2xl text-red-600">
+          Something went wrong!
+        </p>
+      )}
 
       {listing && !loading && !error && (
         <div className="relative">
           <Swiper navigation className="h-[300px] md:h-[400px]">
-            {Array.isArray(listing.imageUrls) && listing.imageUrls.length > 0 ? (
+            {Array.isArray(listing.imageUrls) &&
+            listing.imageUrls.length > 0 ? (
               listing.imageUrls.map((url, idx) => (
                 <SwiperSlide key={`${url}-${idx}`}>
                   <div
@@ -153,12 +177,18 @@ export default function Listing() {
             />
           </div>
 
-          {copied && <p className="fixed top-[23%] right-[5%] z-20 rounded-md bg-white p-2 shadow-md text-sm text-gray-700">Link copied!</p>}
+          {copied && (
+            <p className="fixed top-[23%] right-[5%] z-20 rounded-md bg-white p-2 shadow-md text-sm text-gray-700">
+              Link copied!
+            </p>
+          )}
 
           <div className="flex flex-col max-w-7xl mx-auto p-5 md:p-7 my-7 bg-white rounded-lg shadow-md gap-5">
             <p className="text-2xl md:text-3xl font-bold text-sky-700">
               {listing.name} - ₹
-              {listing.offer ? Number(listing.discountPrice)?.toLocaleString("en-US") : Number(listing.regularPrice)?.toLocaleString("en-US")}
+              {listing.offer
+                ? Number(listing.discountPrice)?.toLocaleString("en-US")
+                : Number(listing.regularPrice)?.toLocaleString("en-US")}
               {listing.type === "rent" && " / month"}
             </p>
 
@@ -170,7 +200,10 @@ export default function Listing() {
             <div className="flex flex-wrap gap-3 mt-2">
               {listing.offer && (
                 <p className="bg-green-700 text-white px-3 py-1 rounded-md">
-                  ₹{Number(listing.regularPrice || 0) - Number(listing.discountPrice || 0)} OFF
+                  ₹
+                  {Number(listing.regularPrice || 0) -
+                    Number(listing.discountPrice || 0)}{" "}
+                  OFF
                 </p>
               )}
             </div>
@@ -180,7 +213,9 @@ export default function Listing() {
                 <button
                   onClick={() => {
                     if (!currentUser) {
-                      const confirmRedirect = window.confirm("You need to sign in to continue. Do you want to sign-in?");
+                      const confirmRedirect = window.confirm(
+                        "You need to sign in to continue. Do you want to sign-in?"
+                      );
                       if (confirmRedirect) navigate("/sign-in");
                       return;
                     }
@@ -190,14 +225,21 @@ export default function Listing() {
                     }
                     handlePayment();
                   }}
-                  className={`w-40 h-12 rounded-lg font-semibold text-white transition-all duration-300 ${currentUser ? "bg-sky-600 hover:bg-sky-700" : "bg-gray-400 cursor-not-allowed"}`}
+                  className={`w-40 h-12 rounded-lg font-semibold text-white transition-all duration-300 ${
+                    currentUser
+                      ? "bg-sky-600 hover:bg-sky-700"
+                      : "bg-gray-400 cursor-not-allowed"
+                  }`}
                 >
                   {listing.type === "rent" ? "Rent Now" : "Buy Now"}
                 </button>
 
                 {listing.offer && (
                   <p className="w-40 h-12 flex items-center justify-center bg-green-700 text-white rounded-lg font-semibold">
-                    ₹{Number(listing.regularPrice || 0) - Number(listing.discountPrice || 0)} OFF
+                    ₹
+                    {Number(listing.regularPrice || 0) -
+                      Number(listing.discountPrice || 0)}{" "}
+                    OFF
                   </p>
                 )}
               </div>
@@ -228,7 +270,10 @@ export default function Listing() {
             </ul>
 
             {currentUser && listing.userRef !== currentUser._id && !contact && (
-              <button onClick={() => setContact(true)} className="bg-sky-700 text-white rounded-lg uppercase hover:bg-sky-800 transition p-3 mt-5">
+              <button
+                onClick={() => setContact(true)}
+                className="bg-sky-700 text-white rounded-lg uppercase hover:bg-sky-800 transition p-3 mt-5"
+              >
                 Contact landlord
               </button>
             )}

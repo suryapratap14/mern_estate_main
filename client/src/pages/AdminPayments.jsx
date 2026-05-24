@@ -6,7 +6,9 @@ export default function AdminPayments() {
 
   useEffect(() => {
     const fetchPayments = async () => {
-      const res = await fetch(`${API_BASE_URL}/api/payment/all`);
+      const res = await fetch(`${API_BASE_URL}/api/payment/all`, {
+        credentials: "include",
+      });
       const data = await res.json();
       if (data.success) setPayments(data.data);
     };
@@ -16,7 +18,9 @@ export default function AdminPayments() {
   return (
     <div className="max-w-6xl mx-auto p-6">
       <h1 className="text-2xl font-bold mb-4">Payments (Admin)</h1>
-      {payments.length === 0 ? <p>No payments yet.</p> : (
+      {payments.length === 0 ? (
+        <p>No payments yet.</p>
+      ) : (
         <table className="w-full border">
           <thead className="bg-gray-100">
             <tr>
@@ -28,13 +32,15 @@ export default function AdminPayments() {
             </tr>
           </thead>
           <tbody>
-            {payments.map(p => (
+            {payments.map((p) => (
               <tr key={p._id}>
                 <td className="p-2 border">{p.paymentId}</td>
                 <td className="p-2 border">{p.userId}</td>
                 <td className="p-2 border">{p.listingId}</td>
                 <td className="p-2 border">₹{p.amount}</td>
-                <td className="p-2 border">{new Date(p.createdAt).toLocaleString()}</td>
+                <td className="p-2 border">
+                  {new Date(p.createdAt).toLocaleString()}
+                </td>
               </tr>
             ))}
           </tbody>

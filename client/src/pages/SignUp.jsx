@@ -23,6 +23,7 @@ function SignUp() {
     try {
       const res = await fetch(`${API_BASE_URL}/api/auth/signup`, {
         method: 'POST',
+        credentials: "include",
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData),
       });
@@ -42,7 +43,7 @@ function SignUp() {
         return;
       }
 
-      if (data.token) localStorage.setItem('token', data.token);
+      // if (data.token) localStorage.setItem('token', data.token);
 
       navigate('/sign-in');
     } catch (err) {

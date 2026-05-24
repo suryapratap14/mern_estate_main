@@ -48,7 +48,11 @@ function Search() {
       setLoading(true);
       setShowMore(false);
       try {
-        const res = await fetch(`${API_BASE_URL}/api/listing/get?${urlParams.toString()}`);
+        const res = await fetch(
+          `${API_BASE_URL}/api/listing/get?${urlParams.toString()}`, {
+            credentials: "include",
+          }
+        );
         const json = await res.json();
         const dataArr = normalizeResponse(json);
         setListings(dataArr);
@@ -94,7 +98,8 @@ function Search() {
     e.preventDefault();
     const params = new URLSearchParams();
 
-    if (sidebarData.searchTerm) params.set("searchTerm", sidebarData.searchTerm);
+    if (sidebarData.searchTerm)
+      params.set("searchTerm", sidebarData.searchTerm);
     if (sidebarData.type) params.set("type", sidebarData.type);
     if (sidebarData.parking) params.set("parking", "true");
     if (sidebarData.furnished) params.set("furnished", "true");
@@ -112,7 +117,12 @@ function Search() {
     urlParams.set("limit", String(LIMIT));
 
     try {
-      const res = await fetch(`${API_BASE_URL}/api/listing/get?${urlParams.toString()}`);
+      const res = await fetch(
+        `${API_BASE_URL}/api/listing/get?${urlParams.toString()}`,
+        {
+          credentials: "include",
+        }
+      );
       const json = await res.json();
       const newData = normalizeResponse(json);
       setListings((prev) => [...prev, ...newData]);
@@ -154,7 +164,9 @@ function Search() {
                     onChange={handleChange}
                     checked={sidebarData.type === t}
                   />
-                  <span className="capitalize">{t === "all" ? "Rent & Sale" : t}</span>
+                  <span className="capitalize">
+                    {t === "all" ? "Rent & Sale" : t}
+                  </span>
                 </div>
               ))}
             </div>
@@ -209,11 +221,15 @@ function Search() {
 
         <div className="p-7 flex flex-wrap gap-6 bg-gray-50">
           {!loading && listings.length === 0 && (
-            <p className="text-xl text-slate-700 w-full text-center mt-10">No listings found</p>
+            <p className="text-xl text-slate-700 w-full text-center mt-10">
+              No listings found
+            </p>
           )}
 
           {loading && (
-            <p className="text-xl text-slate-700 w-full text-center mt-10">Loading...</p>
+            <p className="text-xl text-slate-700 w-full text-center mt-10">
+              Loading...
+            </p>
           )}
 
           {!loading &&

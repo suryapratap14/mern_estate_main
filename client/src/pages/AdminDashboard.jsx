@@ -40,9 +40,15 @@ export default function AdminDashboard() {
     setError(null);
     try {
       const [uRes, lRes, pRes] = await Promise.all([
-        fetch(`${API_BASE_URL}/api/user/admin/all`),
-        fetch(`${API_BASE_URL}/api/listing/admin/all`),
-        fetch(`${API_BASE_URL}/api/payment/all`),
+        fetch(`${API_BASE_URL}/api/user/admin/all`, {
+          credentials: "include",
+        }),
+        fetch(`${API_BASE_URL}/api/listing/admin/all`, {
+          credentials: "include",
+        }),
+        fetch(`${API_BASE_URL}/api/payment/all`, {
+          credentials: "include",
+        }),
       ]);
       const [uJson, lJson, pJson] = await Promise.all([
         uRes.json(),
@@ -85,6 +91,7 @@ export default function AdminDashboard() {
     try {
       const res = await fetch(`${API_BASE_URL}/api/user/admin/delete/${id}`, {
         method: "DELETE",
+        credentials: "include",
       });
       const json = await res.json();
       if (!json.success) return alert(json.message || "Delete failed");
@@ -100,6 +107,7 @@ export default function AdminDashboard() {
     try {
       const res = await fetch(`${API_BASE_URL}/api/listing/delete/${id}`, {
         method: "DELETE",
+        credentials: "include",
       });
       const json = await res.json();
       if (!json.success) return alert(json.message || "Delete failed");

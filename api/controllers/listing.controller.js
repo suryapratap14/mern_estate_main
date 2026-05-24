@@ -32,19 +32,35 @@ export const deleteListing = async (req, res, next) => {
 export const updateListing = async (req, res, next) => {
   try {
     const listing = await Listing.findById(req.params.id);
-    if (!listing) return next(errorHandler(404, "Listing not found!"));
 
-    if (req.use?.id !== listing.userRef.toString() && req.user?.role !== "admin") {
-      return next(errorHandler(401, "You can only update your own listings!"));
+    if (!listing) {
+      return next(errorHandler(404, "Listing not found!"));
     }
 
-    const updatedListing = await Listing.findByIdAndUpdate(req.params.id, req.body, { new: true });
-    res.status(200).json({ success: true, data: updatedListing });
+    // FIXED HERE
+    if (
+      req.user?.id !== listing.userRef.toString() &&
+      req.user?.role !== "admin"
+    ) {
+      return next(
+        errorHandler(401, "You can only update your own listings!")
+      );
+    }
+
+    const updatedListing = await Listing.findByIdAndUpdate(
+      req.params.id,
+      req.body, 
+      { new: true }
+    );
+
+    res.status(200).json({
+      success: true,
+      data: updatedListing,
+    });
   } catch (error) {
     next(error);
   }
 };
-
 
 export const getListing = async (req, res, next) => {
   try {

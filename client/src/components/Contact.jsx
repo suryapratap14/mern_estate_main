@@ -10,7 +10,9 @@ function Contact({ listing }) {
   useEffect(() => {
     const fetchLandlord = async () => {
       try {
-        const res = await fetch(`${API_BASE_URL}/api/user/${listing.userRef}`);
+        const res = await fetch(`${API_BASE_URL}/api/user/${listing.userRef}`, {
+          credentials: "include",
+        });
         const data = await res.json();
         setLandlord(data);
       } catch (error) {
@@ -38,8 +40,10 @@ function Contact({ listing }) {
             className="w-full border border-blue-400 p-3 rounded-lg"
           ></textarea>
 
-          <Link to={`mailto:${landlord.email}?subject=Regarding ${listing.name}&body=${message}`}
-          className="bg-slate-700 text-white text-center p-3 uppercase rounded-lg hover:opacity-95">
+          <Link
+            to={`mailto:${landlord.email}?subject=Regarding ${listing.name}&body=${message}`}
+            className="bg-slate-700 text-white text-center p-3 uppercase rounded-lg hover:opacity-95"
+          >
             Send Message
           </Link>
         </div>

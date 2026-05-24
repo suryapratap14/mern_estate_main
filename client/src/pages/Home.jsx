@@ -26,7 +26,12 @@ function Home() {
 
     const fetchOfferListings = async () => {
       try {
-        const res = await fetch(`${API_BASE_URL}/api/listing/get?offer=true&limit=4`);
+        const res = await fetch(
+          `${API_BASE_URL}/api/listing/get?offer=true&limit=4`,
+          {
+            credentials: "include",
+          }
+        );
         const json = await res.json();
         if (!mounted) return;
         setOfferListings(normalize(json));
@@ -41,8 +46,12 @@ function Home() {
     const fetchRentAndSale = async () => {
       try {
         const [rentRes, saleRes] = await Promise.all([
-          fetch(`${API_BASE_URL}/api/listing/get?type=rent&limit=4`),
-          fetch(`${API_BASE_URL}/api/listing/get?type=sale&limit=4`),
+          fetch(`${API_BASE_URL}/api/listing/get?type=rent&limit=4`, {
+            credentials: "include",
+          }),
+          fetch(`${API_BASE_URL}/api/listing/get?type=sale&limit=4`, {
+            credentials: "include",
+          }),
         ]);
         const rentJson = await rentRes.json();
         const saleJson = await saleRes.json();
@@ -75,7 +84,8 @@ function Home() {
           to call home
         </h1>
         <p className="text-gray-500 text-sm sm:text-base max-w-2xl mx-auto sm:mx-0">
-          Browse from a wide range of properties that fit your budget, taste, and lifestyle.
+          Browse from a wide range of properties that fit your budget, taste,
+          and lifestyle.
         </p>
         <Link
           to="/search"
@@ -98,7 +108,9 @@ function Home() {
               <div
                 className="h-[400px] sm:h-[500px] rounded-xl bg-center bg-cover transform transition duration-300 hover:scale-105"
                 style={{
-                  backgroundImage: `url(${(listing.imageUrls && listing.imageUrls[0]) || ""})`,
+                  backgroundImage: `url(${
+                    (listing.imageUrls && listing.imageUrls[0]) || ""
+                  })`,
                 }}
               ></div>
             </SwiperSlide>
@@ -110,8 +122,13 @@ function Home() {
         {offerListings && offerListings.length > 0 && (
           <div>
             <div className="flex justify-between items-center my-3">
-              <h2 className="text-2xl font-semibold text-sky-600">Recent Offers</h2>
-              <Link className="text-sm text-blue-800 hover:underline" to={"/search?offer=true"}>
+              <h2 className="text-2xl font-semibold text-sky-600">
+                Recent Offers
+              </h2>
+              <Link
+                className="text-sm text-blue-800 hover:underline"
+                to={"/search?offer=true"}
+              >
                 Show more offers
               </Link>
             </div>
@@ -127,8 +144,13 @@ function Home() {
         {rentListings && rentListings.length > 0 && (
           <div>
             <div className="flex justify-between items-center my-3">
-              <h2 className="text-2xl font-semibold text-sky-600">Recent places for rent</h2>
-              <Link className="text-sm text-blue-800 hover:underline" to={"/search?type=rent"}>
+              <h2 className="text-2xl font-semibold text-sky-600">
+                Recent places for rent
+              </h2>
+              <Link
+                className="text-sm text-blue-800 hover:underline"
+                to={"/search?type=rent"}
+              >
                 Show more places for rent
               </Link>
             </div>
@@ -144,8 +166,13 @@ function Home() {
         {saleListings && saleListings.length > 0 && (
           <div>
             <div className="flex justify-between items-center my-3">
-              <h2 className="text-2xl font-semibold text-sky-600">Recent places for sale</h2>
-              <Link className="text-sm text-blue-800 hover:underline" to={"/search?type=sale"}>
+              <h2 className="text-2xl font-semibold text-sky-600">
+                Recent places for sale
+              </h2>
+              <Link
+                className="text-sm text-blue-800 hover:underline"
+                to={"/search?type=sale"}
+              >
                 Show more places for sale
               </Link>
             </div>

@@ -21,6 +21,7 @@ export default function OAuth() {
       // Send data to backend
       const res = await fetch(`${API_BASE_URL}/api/auth/google`, {
         method: "POST",
+        credentials: "include",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           name: result.user.displayName,
@@ -38,7 +39,7 @@ export default function OAuth() {
       }
 
       // server may return user at different shapes
-      const user = data.user || data;
+      const user = data.data || data.user || data;
       console.log("Normalized user object:", user);
 
       // Save to Redux + localStorage

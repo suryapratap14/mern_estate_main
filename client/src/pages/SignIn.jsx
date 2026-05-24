@@ -19,6 +19,7 @@ function SignIn() {
     try {
       const res = await fetch(`${API_BASE_URL}/api/auth/signin`, {
         method: 'POST',
+        credentials: "include",
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData),
       });
@@ -36,7 +37,7 @@ function SignIn() {
         return;
       }
 
-      if (data.token) localStorage.setItem('token', data.token);
+      // if (data.token) localStorage.setItem('token', data.token);
 
       const user = data.data ?? data.user ?? data;
       dispatch(signInSuccess(user));
